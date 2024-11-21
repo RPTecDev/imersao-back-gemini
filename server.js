@@ -51,13 +51,13 @@ app.get("/library", async(req, res) => {
     res.status(200).json(books);
 });
 
-// function buscarBookPorID(id) {
-//     return books.findIndex((book) => {
-//       return book.id === Number(id)
-//     })
-// };
+function buscarBookPorID(id) {
+    return books.findIndex((book) => {
+      return book.id === Number(id)
+    })
+};
 
-// app.get("/library/:id", (req, res) => {
-//     const index = buscarBookPorID(req.params.id)
-//     res.status(200).json(books[index]);
-// });
+app.get("/library/:id", (req, res) => {
+    const index = buscarBookPorID(req.params.id)
+    res.status(200).json(books[index]);
+});
