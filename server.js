@@ -1,4 +1,8 @@
 import express from "express";
+import conectarAoBanco from "./src/config/dbConfig.js";
+
+const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
+
 
 const books = [
     {id: 1,
@@ -35,17 +39,25 @@ app.listen(3000, () => {
     console.log("Servidor escutando...");
 });
 
-app.get("/library", (req, res) => {
+async function getTodosBooks() {
+    const db = conexao.db("imersao-library")
+    const colecao = db.collection("books")
+    return colecao.find().toArray()
+};
+
+
+app.get("/library", async(req, res) => {
+  const books = await getTodosBooks();
     res.status(200).json(books);
 });
 
-function buscarBookPorID(id) {
-    return books.findIndex((book) => {
-      return book.id === Number(id)
-    })
-};
+// function buscarBookPorID(id) {
+//     return books.findIndex((book) => {
+//       return book.id === Number(id)
+//     })
+// };
 
-app.get("/library/:id", (req, res) => {
-    const index = buscarBookPorID(req.params.id)
-    res.status(200).json(books[index]);
-});
+// app.get("/library/:id", (req, res) => {
+//     const index = buscarBookPorID(req.params.id)
+//     res.status(200).json(books[index]);
+// });
