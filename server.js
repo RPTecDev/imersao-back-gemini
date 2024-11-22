@@ -1,63 +1,32 @@
-import express from "express";
-import conectarAoBanco from "./src/config/dbConfig.js";
+import express from "express"; // Importa o framework Express para criar a aplicação web
+import conectarAoBanco from "./src/config/dbConfig.js"; // Importa a função para conectar ao banco de dados
 
+// Conecta ao banco de dados usando a string de conexão fornecida pela variável de ambiente STRING_CONEXAO
 const conexao = await conectarAoBanco(process.env.STRING_CONEXAO);
 
-
+// Array de livros de exemplo (será substituído pelos dados do banco de dados)
 const books = [
-    {id: 1,
-      descricao: "Uma foto teste",
-      imagem: "https://placecats.com/millie/300/150"
-    },
-    {id: 2,
-      descricao: "Gato preguiçoso tomando sol",
-      imagem: "https://placecats.com/millie/300/150"
-    },
-    {id: 3,
-      descricao: "Gatinho brincando com um novelo de lã",
-      imagem: "https://placecats.com/millie/300/150"
-    },
-    {id: 4,
-      descricao: "Visão de um gato curioso",
-      imagem: "https://placecats.com/millie/300/150"
-    },
-    {id: 5,
-      descricao: "Gatos se divertindo em uma caixa de papelão",
-      imagem: "https://placecats.com/millie/300/150"
-    },
-    {id: 6,
-      descricao: "Um gato com olhos esverdeados",
-      imagem: "https://placecats.com/millie/300/150"
-    }
-  ];
+  // ... dados dos livros
+];
 
+// Cria uma instância do Express e habilita o parser JSON para lidar com requisições JSON
 const app = express();
 app.use(express.json());
 
-
+// Inicia o servidor na porta 3000 e exibe uma mensagem no console
 app.listen(3000, () => {
-    console.log("Servidor escutando...");
+  console.log("Servidor escutando...");
 });
 
+// Função assíncrona para obter todos os livros da coleção "books" no banco de dados "imersao-library"
 async function getTodosBooks() {
-    const db = conexao.db("imersao-library")
-    const colecao = db.collection("books")
-    return colecao.find().toArray()
-};
+  const db = conexao.db("imersao-library"); // Seleciona o banco de dados
+  const colecao = db.collection("books"); // Seleciona a coleção
+  return colecao.find().toArray(); // Executa a consulta e retorna um array com todos os documentos
+}
 
-
-app.get("/library", async(req, res) => {
-  const books = await getTodosBooks()
-    res.status(200).json(books);
+// Rota GET para a raiz (/library) que retorna todos os livros
+app.get("/library", async (req, res) => {
+  const books = await getTodosBooks(); // Chama a função para obter os livros
+  res.status(200).json(books); // Envia os livros como resposta em formato JSON com status 200 (sucesso)
 });
-
-// function buscarBookPorID(id) {
-//     return books.findIndex((book) => {
-//       return book.id === Number(id)
-//     })
-// };
-
-// app.get("/library/:id", (req, res) => {
-//     const index = buscarBookPorID(req.params.id)
-//     res.status(200).json(books[index]);
-// });
