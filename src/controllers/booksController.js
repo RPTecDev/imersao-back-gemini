@@ -9,6 +9,5 @@ export async function listarBooks (req, res) {
 
   export async function cadastrarBook (req, res) {
     const novoBook = req.body;
-    try {
-      
+
   }
