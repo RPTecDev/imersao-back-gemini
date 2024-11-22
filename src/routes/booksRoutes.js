@@ -8,6 +8,7 @@ const routes = (app) => {
     app.use(express.json());
     // Rota GET para a raiz (/library) que retorna todos os livros
     app.get("/library", listarBooks);
+    app.post("/library", )
 }
 
 export default routes;

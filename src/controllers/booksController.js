@@ -6,3 +6,9 @@ export async function listarBooks (req, res) {
     // Envia os livros como resposta em formato JSON com status 200 (sucesso) 
     res.status(200).json(books); 
   }
+
+  export async function cadastrarBook (req, res) {
+    const novoBook = req.body;
+    try {
+      
+  }
