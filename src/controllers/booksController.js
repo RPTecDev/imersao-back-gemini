@@ -7,7 +7,14 @@ export async function listarBooks (req, res) {
     res.status(200).json(books); 
   }
 
-  export async function cadastrarBook (req, res) {
+  export async function cadastrarNovoBook (req, res) {
     const novoBook = req.body;
+    try {
+      const bookCadastrado = await criarNovoBook(novoBook);
+      res.status(200).json(bookCadastrado);
+    } catch (erro) {
+      console.error (erro.message);
+      res.status(500).json({"Erro":"Falha na requisição"})
+    }
 
   }
